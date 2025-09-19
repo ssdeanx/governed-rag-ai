@@ -3,6 +3,17 @@ import { Button } from '@/components/ui/button';
 import { Shield, BookOpen, Code, Database, Users, Lock, ExternalLink, Terminal, Key, FileText } from 'lucide-react';
 import Link from 'next/link';
 
+/**
+ * Renders the static Governed RAG documentation page used by the app.
+ *
+ * This default-export React component returns a full-page, card-based documentation UI
+ * describing installation, security/access control, API reference, system architecture,
+ * demo roles, and footer links. Content is static (no data fetching or runtime state)
+ * and uses semantic section IDs (quick-start, security, api, architecture, demo-roles)
+ * for in-page navigation and linking.
+ *
+ * @returns A JSX element containing the rendered documentation page.
+ */
 export default function DocsPage() {
   return (
     <div className="min-h-screen bg-background">

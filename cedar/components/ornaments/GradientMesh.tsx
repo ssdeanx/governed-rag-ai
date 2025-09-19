@@ -201,7 +201,17 @@ export const GradientMesh: React.FC<GradientMeshProps> = ({
 	);
 };
 
-// Function to generate an array of prismatic colors based on a seed color
+/**
+ * Generate an 8-color prismatic palette (HSL strings) derived from a seed color.
+ *
+ * Produces eight cohesive but varied `hsl(...)` color strings by converting `seedColor`
+ * to HSL and applying hue/saturation/lightness offsets. Adjusts saturation and lightness
+ * strategy when `darkMode` is true to keep colors vibrant yet suitable for dark backgrounds.
+ *
+ * @param seedColor - Seed color used to generate the palette (hex like `#RRGGBB` or `#RGB`, or `rgb(...)`/`rgba(...)` string)
+ * @param darkMode - When true, generate colors tuned for dark themes (reduced lightness, slightly boosted saturation)
+ * @returns An array of eight CSS HSL color strings, e.g. `["hsl(340, 75%, 60%)", ...]`
+ */
 function generatePrismaticColors(
 	seedColor: string,
 	darkMode: boolean
@@ -244,7 +254,15 @@ function generatePrismaticColors(
 	];
 }
 
-// Helper to convert hex color to HSL
+/**
+ * Converts a color string (hex or `rgb`/`rgba`) into HSL components.
+ *
+ * Accepts 6-digit (`#rrggbb`) and 3-digit (`#rgb`) hex formats, and `rgb(...)` / `rgba(...)` strings.
+ * If parsing fails or an unsupported format is provided, returns a sensible pink-ish default HSL of `{ h: 340, s: 70, l: 80 }`.
+ *
+ * @param hex - Color input as a hex string (`#rgb` or `#rrggbb`) or an `rgb(...)` / `rgba(...)` string.
+ * @returns An object with `h` (0–360), `s` (0–100), and `l` (0–100).
+ */
 function hexToHSL(hex: string): { h: number; s: number; l: number } {
 	// Default value in case parsing fails
 	const defaultHSL = { h: 340, s: 70, l: 80 }; // Pink-ish default
@@ -292,7 +310,18 @@ function hexToHSL(hex: string): { h: number; s: number; l: number } {
 	return rgbToHSL(r, g, b);
 }
 
-// Helper to convert RGB to HSL
+/**
+ * Convert RGB color components to HSL.
+ *
+ * Accepts red, green, and blue channel values (each in the 0–1 range) and returns
+ * an object with hue in degrees and saturation/lightness as percentages. Output
+ * values are rounded to integers: `h` in [0,360], `s` and `l` in [0,100].
+ *
+ * @param r - Red channel (0–1)
+ * @param g - Green channel (0–1)
+ * @param b - Blue channel (0–1)
+ * @returns An object { h, s, l } where `h` is degrees, `s` and `l` are percentages
+ */
 function rgbToHSL(
 	r: number,
 	g: number,

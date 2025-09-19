@@ -6,7 +6,15 @@ import { FeatureNodeData } from '../components/FeatureNode';
 
 // [STEP 6]: To automatically make any part of your application state available to AI agents as context,
 // We use the subscribeInputContext function. In this example, we subscribe to the selected nodes and specify how we want them to appear in the chat as "selected context".
-// We also specify how we want to transform the selected nodes into a format that should be visible to the agent in its context.
+/**
+ * Registers roadmap-related state with the agent context so AI agents can access node data.
+ *
+ * Subscribes two context keys:
+ * - `selectedNodes`: exposes `selectedFeatures`, an array of selected feature summaries (id, title, description, status, type, upvotes, commentCount). This subscription includes a purple Box icon (size 16) in the agent UI.
+ * - `nodes`: exposes `features`, an array of feature summaries with the same shape.
+ *
+ * Each summary's `commentCount` is derived from `node.data.comments?.length ?? 0`. Calling this hook registers the subscriptions as a side effect; it does not return a value.
+ */
 
 export function useRoadmapContext() {
   useSubscribeStateToAgentContext(

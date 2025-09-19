@@ -32,6 +32,16 @@ const buttonVariants = cva(
   },
 );
 
+/**
+ * Render a styled button that supports CVA variants and optional Slot composition.
+ *
+ * Renders either a native `button` element or a Radix `Slot` (when `asChild` is true),
+ * applies classes from `buttonVariants` merged with `className`, forwards all other
+ * props to the underlying element, and sets `data-slot="button"`.
+ *
+ * @param asChild - When true, renders a `Slot` so consumers can supply their own element; otherwise renders a native `button`.
+ * @returns A React element representing the configured button.
+ */
 function Button({
   className,
   variant,

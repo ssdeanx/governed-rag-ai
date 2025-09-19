@@ -5,7 +5,19 @@ import { ArrowRight, Box } from 'lucide-react';
 import { FeatureNodeData } from '@/components/FeatureNode';
 
 // [STEP 5]: To enable @ mentions, we use the useStateBasedMentionProvider hook.
-// This allows the user to reference any state value from the chat using something like @nodeName
+/**
+ * Registers two Cedar state-based @-mention providers for roadmap nodes and edges.
+ *
+ * The hook adds:
+ * - a "nodes" provider (trigger `@`) that labels mentions with each node's `data.title`
+ *   and allows searching by `data.description` (described as "Product roadmap features and bugs").
+ * - an "edges" provider (trigger `@`) that labels mentions as `SourceTitle → TargetTitle`
+ *   by resolving connected node titles from the current `nodes` state (falls back to the
+ *   edge's `source`/`target` IDs if a node is not found) and is described as
+ *   "Feature relationships, dependencies, and connections".
+ *
+ * Intended to enable referencing roadmap features and their relationships from chat UIs.
+ */
 export function useRoadmapMentions() {
   // We use the useStateBasedMentionProvider hook to register a mention provider that references an existing state that we've registered.
   useStateBasedMentionProvider({

@@ -1,17 +1,16 @@
 import React from 'react';
-import type {
-  Connection,
-  NodeChange,
-  Node} from 'reactflow';
 import ReactFlow, {
   addEdge,
   Background,
+  Connection,
   ConnectionLineType,
   Controls,
   MarkerType,
+  NodeChange,
   useEdgesState,
   useNodesState,
-  useOnSelectionChange
+  useOnSelectionChange,
+  Node,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 
@@ -19,8 +18,21 @@ import { roadmapNodeTypes } from './RoadmapNode';
 import { useCedarRoadmap } from '@/app/cedar-os/hooks';
 import { useRoadmapData } from './useRoadmapData';
 import { useCedarState } from 'cedar-os';
-import type { FeatureNodeData } from './FeatureNode';
+import { FeatureNodeData } from '@/components/FeatureNode';
 
+/**
+ * Renders the interactive roadmap canvas using React Flow and synchronizes it with Cedar state.
+ *
+ * This component loads initial nodes and edges, manages node/edge state (including cleanup of edges
+ * when nodes are deleted), and wires changes into Cedar via hooks. It supports creating new
+ * connections (adds animated `simplebezier` edges with closed arrow markers), and tracks the set of
+ * selected feature nodes in Cedar-backed state so other parts of the app can observe selections.
+ *
+ * The UI includes the React Flow viewport (with background and controls) and an overlay panel that
+ * appears when one or more nodes are selected, listing each selected feature's title and status.
+ *
+ * @returns A React element containing the roadmap editor and selected-features overlay.
+ */
 export function RoadmapCanvas() {
   const { nodes: initialNodes, edges: initialEdges } = useRoadmapData();
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);

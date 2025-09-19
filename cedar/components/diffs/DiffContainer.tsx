@@ -89,6 +89,25 @@ const DiffContainer: React.FC<DiffContainerProps> = ({
 			return;
 		}
 
+		/**
+		 * Initializes and starts the component's breathing, wave, and rotation animations.
+		 *
+		 * If `enableIntroAnimation` is true, plays a short "bloom" intro by animating `breathe`, `breathe1`,
+		 * `breathe2`, and `breathe3` from 0 to 1 and awaits completion before continuing. If the intro is
+		 * disabled, those motion values are set to 1 immediately.
+		 *
+		 * After the intro (or immediate setup), starts a set of independent, looping animations:
+		 * - Continuous breathing patterns for `breathe1`, `breathe2`, and `breathe3` with distinct timings
+		 *   and amplitude sequences.
+		 * - Continuous horizontal and vertical wave drifts on `wave1` and `wave2`.
+		 * - Continuous rotation on `rotate`.
+		 *
+		 * All repeating animations run indefinitely (infinite loop). This function has side effects on the
+		 * shared motion values (`breathe`, `breathe1`, `breathe2`, `breathe3`, `wave1`, `wave2`, `rotate`).
+		 *
+		 * @returns A promise that resolves after the optional intro bloom completes and the continuous
+		 * animations have been started.
+		 */
 		async function playBreathingAnimation() {
 			if (enableIntroAnimation) {
 				// Set initial values to 0 for bloom effect

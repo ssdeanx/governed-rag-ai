@@ -1,10 +1,20 @@
 import React from 'react';
-import type { NodeProps } from 'reactflow';
-import { Handle, Position } from 'reactflow';
-import { Badge } from './badge';
+import { Handle, Position, NodeProps } from 'reactflow';
+import { Badge } from '@/components/badge';
 import { Heart, MessageCircle, Bug, Lightbulb } from 'lucide-react';
-import type { FeatureNodeData } from './FeatureNode';
+import { FeatureNodeData } from '@/components/FeatureNode';
 
+/**
+ * Render a roadmap node for React Flow that displays a feature/bug item with editable title and description.
+ *
+ * Renders node header (type icon and status), title and description (double-click to edit; edits are saved on blur or on Enter without Shift),
+ * connection handles (left target, right source), and engagement metrics (upvotes and comment count). Visual styling changes based on `data.status`
+ * and a focus ring is shown when `selected` is true.
+ *
+ * Uses these fields from `data`: `title`, `description`, `status`, `nodeType`, `upvotes`, and `comments` (comment count falls back to 0).
+ *
+ * @returns A React element representing the roadmap node.
+ */
 export function RoadmapNode({ data, selected }: NodeProps<FeatureNodeData>) {
   const [isEditing, setIsEditing] = React.useState(false);
   const [title, setTitle] = React.useState(data.title);

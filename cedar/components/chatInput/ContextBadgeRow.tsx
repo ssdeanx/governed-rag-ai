@@ -9,7 +9,12 @@ import { X } from 'lucide-react';
 import React from 'react';
 
 /**
- * Helper to normalize context entries to an array for internal processing
+ * Normalize a ContextEntry or an array of ContextEntry into a ContextEntry[].
+ *
+ * Returns the input unchanged if it's already an array; otherwise returns a
+ * new single-element array containing `value`.
+ *
+ * @returns A ContextEntry array suitable for uniform downstream processing.
  */
 
 function normalizeToArray(

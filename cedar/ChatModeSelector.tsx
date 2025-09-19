@@ -8,6 +8,16 @@ interface ChatModeSelectorProps {
   onModeChange: (mode: ChatMode) => void;
 }
 
+/**
+ * Renders a compact chat mode selector with three options: Caption, Floating, and Side Panel.
+ *
+ * Shows an icon and label for each mode, visually highlights the currently selected mode, and invokes
+ * `onModeChange` with the selected mode id when a button is clicked.
+ *
+ * @param currentMode - The currently selected chat mode (`'floating' | 'sidepanel' | 'caption'`).
+ * @param onModeChange - Callback invoked with the new mode id when the user selects a mode.
+ * @returns A JSX element containing the mode selector UI.
+ */
 export function ChatModeSelector({ currentMode, onModeChange }: ChatModeSelectorProps) {
   const modes = [
     {

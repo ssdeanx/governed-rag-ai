@@ -6,7 +6,19 @@ import { useCedarState, useRegisterState } from 'cedar-os';
 import type { FeatureNodeData } from '@/cedar/components/FeatureNode';
 
 // [STEP 4]: There are a few ways to make your application states visible to your agent.
-// This allows your agent to understand and manipulate roadmap features using the state functions
+/**
+ * Registers roadmap graph state with Cedar and binds it to the provided React state.
+ *
+ * Registers a Cedar-managed `currentDate` value and two Cedar states keyed `'nodes'` and `'edges'`.
+ * The `'nodes'` state exposes three state setters — `addNode`, `removeNode`, and `changeNode` —
+ * which respectively append a new feature/bug node (assigning a UUID and default node data when missing),
+ * remove a node (and also removes any connected edges), and merge updates into an existing node's data.
+ *
+ * @param nodes - The current array of roadmap nodes (Node<FeatureNodeData>).
+ * @param setNodes - React state setter for `nodes`.
+ * @param edges - The current array of roadmap edges (Edge[]).
+ * @param setEdges - React state setter for `edges`.
+ */
 export function useRoadmapState(
   nodes: Node<FeatureNodeData>[],
   setNodes: React.Dispatch<React.SetStateAction<Node<FeatureNodeData>[]>>,

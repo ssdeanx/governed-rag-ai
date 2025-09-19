@@ -9,6 +9,20 @@ const STATUS_VALUE = 500;
 export const maxDuration = 300; // 5 minutes for indexing
 export const dynamic = 'force-dynamic';
 
+/**
+ * HTTP POST handler that indexes Markdown documents from the local `corpus` directory using the governed-rag-index workflow.
+ *
+ * Scans the project's `corpus` folder for `.md` files, builds document metadata (docId, filePath, classification, allowedRoles, tenant, source) based on filename hints, and submits the documents to the "governed-rag-index" workflow to perform indexing. JWT in the request body is accepted but optional; indexing proceeds without authentication.
+ *
+ * Side effects:
+ * - Reads files from disk (process.cwd()/corpus).
+ * - Starts a workflow run via the Mastra SDK.
+ * - Emits structured logs and may log per-document failures.
+ *
+ * Responses:
+ * - 200 JSON on success: { success: true, indexed, failed, documents } where `documents` is the per-document result array returned by the workflow.
+ * - 500 JSON on failure with an `error` message (and in unexpected exceptions also `{ message }`).
+ */
 export async function POST(request: NextRequest) {
   try {
     const { jwt } = await request.json();

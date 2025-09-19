@@ -34,6 +34,17 @@ export const metadata: Metadata = {
   generator: 'Next.js',
 };
 
+/**
+ * Root application layout that wraps pages with global providers and UI chrome.
+ *
+ * Renders the HTML document structure with language set to English and disables hydration warnings.
+ * The body applies the global Inter font and wraps content with ThemeProvider (class-based theming,
+ * system default, system sync enabled, and theme-change transitions disabled). Also mounts the
+ * Toaster for application-wide toast notifications.
+ *
+ * @param children - Page content to be rendered inside the layout
+ * @returns The root HTML/Body structure containing the themed application and Toaster
+ */
 export default function RootLayout({
   children,
 }: {

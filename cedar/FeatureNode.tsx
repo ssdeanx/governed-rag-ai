@@ -3,8 +3,8 @@
 import { memo, useState, useEffect, useRef } from 'react';
 import type { NodeProps } from 'reactflow';
 import { Handle, Position, useReactFlow } from 'reactflow';
-import { Badge } from './badge';
-import { Button } from './button';
+import { Badge } from '@/components/badge';
+import { Button } from '@/components/button';
 import {
   ChevronDown,
   ChevronUp,
@@ -25,18 +25,18 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from './dropdown-menu';
+} from '@/components/dropdown-menu';
 
 // -----------------------------------------------------------------------------
 // Types
 // -----------------------------------------------------------------------------
 
-export interface Comment {
+export type Comment = {
   id: string;
   author: string;
   text: string;
   timestamp?: number;
-}
+};
 
 export type FeatureStatus = 'done' | 'planned' | 'backlog' | 'in progress';
 export type NodeType = 'feature' | 'bug' | 'improvement' | 'component' | 'utils' | 'agent helper';
@@ -82,9 +82,24 @@ export interface FeatureNodeData {
 }
 
 /**
- * FeatureNode – custom node component used in the product roadmap flow.
- * Shows status, description, and basic metrics. Highlights with a thick border
- * when it is currently selected in the flow.
+ * React Flow node component that renders an editable, resizable roadmap feature card.
+ *
+ * Renders a feature/bug/improvement node showing title, markdown description, status,
+ * node type, upvotes, comments, and optional details. Supports:
+ * - Inline editing for title and description with Enter/Escape keyboard handling.
+ * - Resizing via a bottom-right drag handle (zoom-aware; enforces minimum size).
+ * - Upvoting and adding comments (comments stored on node data).
+ * - Changing status and node type via dropdowns; optional package version badge when status is `done`.
+ * - Per-handle (left/right) labels editable by double-click.
+ * - Diff overlay and Accept/Reject actions:
+ *   - Accepting a `removed` diff deletes the node; accepting other diffs clears the `diff` field.
+ *   - Rejecting an `added` diff deletes the node; rejecting other diffs clears the `diff` field.
+ * - Connection handles (left = target, right = source) and accessibility-friendly controls.
+ *
+ * Side effects:
+ * - Updates node data and the shared graph using React Flow's setNodes/getNodes (e.g., title/description,
+ *   upvotes, comments, width/height, status, nodeType, handleLabels). May remove nodes when applying/rejecting diffs.
+ *
  */
 function FeatureNodeComponent({ id, data, selected }: NodeProps<FeatureNodeData>) {
   const {
@@ -338,7 +353,7 @@ function FeatureNodeComponent({ id, data, selected }: NodeProps<FeatureNodeData>
   const handleAcceptDiff = async () => {
     const nodes = getNodes();
     const node = nodes.find((n) => n.id === id);
-    if (!node?.data.diff) {
+    if (!node || !node.data.diff) {
       return;
     }
     if (node.data.diff === 'removed') {
@@ -355,7 +370,7 @@ function FeatureNodeComponent({ id, data, selected }: NodeProps<FeatureNodeData>
   const handleRejectDiff = () => {
     setNodes((nds) => {
       const node = nds.find((n) => n.id === id);
-      if (!node?.data.diff) {
+      if (!node || !node.data.diff) {
         return nds;
       }
       if (node.data.diff === 'added') {
@@ -470,7 +485,7 @@ function FeatureNodeComponent({ id, data, selected }: NodeProps<FeatureNodeData>
                   onDoubleClick={() => setEditingTitle(true)}
                   tabIndex={0}
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter') {setEditingTitle(true);}
+                    if (e.key === 'Enter') setEditingTitle(true);
                   }}
                   aria-label="Edit title"
                 >
@@ -587,7 +602,7 @@ function FeatureNodeComponent({ id, data, selected }: NodeProps<FeatureNodeData>
               onDoubleClick={() => setEditingDescription(true)}
               tabIndex={0}
               onKeyDown={(e) => {
-                if (e.key === 'Enter') {setEditingDescription(true);}
+                if (e.key === 'Enter') setEditingDescription(true);
               }}
               aria-label="Edit description"
             >

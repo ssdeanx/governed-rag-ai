@@ -8,6 +8,16 @@ const STATUS_VALUE = 400;
 export const maxDuration = 60; // 60 seconds for chat responses
 export const dynamic = 'force-dynamic';
 
+/**
+ * Handles POST requests to process a question via the "governed-rag-answer" workflow and streams the response as Server-Sent Events (SSE).
+ *
+ * Expects a JSON body with `jwt` and `question`. If either is missing, returns a 400 JSON error: `{ error: 'Missing required fields' }`.
+ * On success, starts a Mastra workflow run, streams an initial "Processing your request..." SSE event, then streams the workflow's `answer` in successive SSE `data` events (chunks up to 50 characters with ~50ms pause between chunks). After streaming the answer it sends a final SSE event with `{ done: true, citations, contexts: [] }`.
+ * If the workflow fails or an internal error occurs during streaming, a final SSE event is sent containing an error message and `done: true`. If an unexpected exception escapes, the handler returns a 500 JSON error `{ error: 'Internal server error', message }`.
+ *
+ * @param request - Next.js request whose JSON body must include `jwt` and `question`.
+ * @returns A NextResponse that either streams SSE events (`Content-Type: text/event-stream`) for successful or partial results, or a JSON error response with status 400 or 500 for input or server errors.
+ */
 export async function POST(request: NextRequest) {
   try {
     const { jwt, question } = await request.json();

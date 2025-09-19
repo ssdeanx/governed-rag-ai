@@ -11,6 +11,25 @@ import { Badge } from '@/components/ui/badge';
 import { Shield, Lock, AlertCircle, CheckCircle } from 'lucide-react';
 import { useState } from 'react';
 
+/**
+ * Home page component that provides a role-aware, multi-view application shell.
+ *
+ * Renders a sidebar-driven layout with top navigation and a two-column content area.
+ * Manages local UI/auth state: `jwt` (token), `currentRole` (user role), and `currentView`
+ * ('home' | 'indexing' | 'chat'). Exposes internal handlers to sign out (clears `jwt` and
+ * `currentRole`) and to change the active view.
+ *
+ * Behavior summary:
+ * - Wrapped in SidebarProvider and includes TopNavigation (SidebarTrigger, SecurityIndicator,
+ *   ThemeToggle, UserMenu) and AppSidebar.
+ * - currentView === 'indexing': renders IndexingPanel with `jwt || 'anonymous'`.
+ * - currentView === 'home' && no jwt: shows a secure-access landing, an AuthPanel (on success
+ *   sets `jwt` and `currentRole`), and three access-level Cards (Public, Internal, Confidential).
+ * - (currentView === 'home' || currentView === 'chat') && jwt: shows a signed-in Alert
+ *   (displaying `currentRole` and a Sign Out button) and the ChatInterface with `jwt` and `role`.
+ *
+ * @returns The Home React component's JSX element.
+ */
 export default function Home() {
   const [jwt, setJwt] = useState<string>('');
   const [currentRole, setCurrentRole] = useState<string>('');
