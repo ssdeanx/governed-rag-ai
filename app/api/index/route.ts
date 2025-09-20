@@ -9,6 +9,22 @@ const STATUS_VALUE = 500;
 export const maxDuration = 300; // 5 minutes for indexing
 export const dynamic = 'force-dynamic';
 
+/**
+ * Indexes Markdown documents from the local corpus folder by invoking the governed RAG indexing workflow.
+ *
+ * Reads *.md files from the project's "corpus" directory, infers per-document classification and allowed roles from filenames
+ * (public, internal, confidential with role mappings), and submits the resulting document descriptors to the
+ * "governed-rag-index" workflow. Returns a JSON response containing counts and per-document results on success,
+ * or an error object on failure.
+ *
+ * Behavior summary:
+ * - If no Markdown files are found, responds with a 500 and { error: 'No documents found to index' }.
+ * - If the workflow completes with status "success", responds with { success: true, indexed, failed, documents }.
+ * - If the workflow fails or is missing, responds with 500 and { error: <message> }.
+ * - On unexpected exceptions, responds with 500 and { error: 'Internal server error', message: <error message> }.
+ *
+ * @returns A NextResponse with a JSON body describing success or error details and an appropriate HTTP status.
+ */
 export async function POST(request: NextRequest) {
   try {
     const { jwt } = await request.json();

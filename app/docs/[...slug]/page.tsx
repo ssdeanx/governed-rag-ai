@@ -39,6 +39,15 @@ import {
   Home
 } from 'lucide-react'
 
+/**
+ * Produce static route parameters for all Markdown/MDX files in the repository's `docs` folder.
+ *
+ * Returns an array of objects suitable for Next.js static routing, where each object has a
+ * `slug` property containing the file path segments (string[]) for a discovered `.md` or `.mdx` file
+ * relative to the `docs` directory (file extension removed).
+ *
+ * @returns An array like `{ slug: string[] }` for every `.md` or `.mdx` file under `docs`.
+ */
 export async function generateStaticParams() {
   const docsDirectory = path.join(process.cwd(), 'docs')
   const files = await fs.readdir(docsDirectory, { recursive: true })
@@ -95,6 +104,16 @@ const components = {
   Home
 }
 
+/**
+ * Render a documentation page for the given slug by loading and compiling a Markdown/MDX file.
+ *
+ * Loads <slug>.mdx (preferred) or falls back to <slug>.md from the repository's `docs/` directory (uses "index" when slug is empty), compiles it with frontmatter parsing and the configured MDX plugins, and returns a DocsLayout-wrapped React element containing the compiled content.
+ *
+ * If neither file exists or MDX compilation fails, the function triggers a 404 via `notFound()`.
+ *
+ * @param params.slug - Array of path segments that form the document slug (joined with `/` to locate the file under `docs/`).
+ * @returns A JSX element rendering the compiled document inside DocsLayout.
+ */
 export default async function DocsPage({ params }: { params: { slug: string[] } }) {
   const slug = params.slug?.join('/') || 'index'
   const mdPath = path.join(process.cwd(), 'docs', `${slug}.md`)

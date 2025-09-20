@@ -15,6 +15,17 @@ interface LoggedInAlertProps {
   onSignOut: () => void;
 }
 
+/**
+ * Renders a stylized "logged in" alert showing the user's role and a sign-out action.
+ *
+ * The component displays an avatar fallback, a badge containing `currentRole`, an
+ * "Authenticated Session" status, and a Sign Out button wrapped in a tooltip.
+ * Clicking the Sign Out button invokes the provided `onSignOut` callback.
+ *
+ * @param currentRole - Label for the user's current role shown in the badge.
+ * @param onSignOut - Callback invoked when the Sign Out button is clicked.
+ * @returns A JSX element representing the logged-in alert UI.
+ */
 export function LoggedInAlert({ currentRole, onSignOut }: LoggedInAlertProps) {
   return (
     <TooltipProvider>

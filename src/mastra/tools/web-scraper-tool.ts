@@ -18,6 +18,16 @@ const DANGEROUS_ATTRS = new Set([
   'onload', 'onerror', 'onclick', 'onmouseover', 'onmouseout', 'onkeydown', 'onkeyup', 'onkeypress', 'onfocus', 'onblur', 'formaction'
 ]);
 
+/**
+ * Sanitize an HTML string by removing dangerous tags and attributes and neutralizing script-like URIs.
+ *
+ * Attempts a DOM-based sanitization using JSDOM (removing known dangerous elements and event handler attributes)
+ * and, if that fails, falls back to a resilient cheerio-based sanitization that also pre-cleans inline event handlers
+ * and `javascript:` hrefs. Images and benign markup are preserved where possible.
+ *
+ * @param html - The raw HTML to sanitize.
+ * @returns A sanitized HTML string safe for downstream processing or rendering.
+ */
 function sanitizeHtml(html: string): string {
   try {
     // Ensure input is a string and explicitly treat as HTML to avoid ambiguous parsing
@@ -73,6 +83,14 @@ function sanitizeHtml(html: string): string {
   }
 }
 
+/**
+ * Extracts and returns the plain text content from an HTML string.
+ *
+ * Attempts to use JSDOM to obtain the document body text; if that fails, falls back to Cheerio.
+ *
+ * @param html - The HTML markup to extract text from.
+ * @returns The trimmed text content of the document body, or an empty string if none is found.
+ */
 function extractTextContent(html: string): string {
   try {
     const dom = new JSDOM(html, { includeNodeLocations: false });
@@ -84,6 +102,19 @@ function extractTextContent(html: string): string {
   }
 }
 
+/**
+ * Converts sanitized HTML into Markdown.
+ *
+ * Attempts a node-wise conversion using JSDOM to map common HTML elements (headings, paragraphs,
+ * lists, links, images, code blocks, tables, blockquotes, etc.) into Markdown. The input HTML is
+ * sanitized before conversion to reduce risk from dangerous content.
+ *
+ * If the JSDOM-based conversion fails, the function logs a warning and falls back to returning
+ * the page's extracted plain text.
+ *
+ * @param html - HTML string to convert (will be sanitized internally)
+ * @returns The resulting Markdown string (or plain text fallback if conversion fails)
+ */
 function htmlToMarkdown(html: string): string {
   try {
     const sanitizedHtml = sanitizeHtml(html);

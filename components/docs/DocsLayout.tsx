@@ -50,6 +50,15 @@ const navigation = [
   }
 ]
 
+/**
+ * Layout component that renders the documentation page chrome: header, sticky sidebar navigation, and main content area.
+ *
+ * Renders a branded header with badges, a left sidebar built from the `navigation` data (section headings, link items with icons,
+ * active-link highlighting based on the current pathname, and external resource links), and a right/main content pane that displays `children`.
+ *
+ * @param children - Page content to render inside the main documentation pane.
+ * @returns A React element containing the full documentation layout.
+ */
 export function DocsLayout({ children }: DocsLayoutProps) {
   const pathname = usePathname()
 

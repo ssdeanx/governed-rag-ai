@@ -5,6 +5,15 @@ import { Button } from '@/components/ui/button';
 
 type AuthResponse = Record<string, any>;
 
+/**
+ * Extracts an authentication token from a server response object.
+ *
+ * Checks common token locations (data.token, data.accessToken, data.jwt, data.data.token, data.data.accessToken)
+ * and returns the first defined value found, or `null` if none are present.
+ *
+ * @param data - Response object that may contain token fields in various shapes.
+ * @returns The token string if found; otherwise `null`.
+ */
 function extractToken(data: AuthResponse) {
   // try common locations for a token
   return (
@@ -12,6 +21,17 @@ function extractToken(data: AuthResponse) {
   );
 }
 
+/**
+ * Client-side React login/signup page that handles user authentication flows.
+ *
+ * Renders a form for email, password, and role selection and supports toggling between "login" and "signup" modes.
+ * On submit it POSTs credentials to `/api/auth/login` or `/api/auth/signup` (based on mode), handles non-OK responses by surfaceing an error message, and on success:
+ * - extracts a token from common response fields,
+ * - stores authentication data in localStorage (`jwt`, `userEmail`, `userRole`) when available (or at least stores email/role if no token is returned),
+ * - dispatches a global `auth:login` CustomEvent with `{ email, role, token }` so other app parts can react.
+ *
+ * The component manages internal loading and error state and disables the submit button while a request is in progress.
+ */
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

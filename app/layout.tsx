@@ -35,6 +35,16 @@ export const metadata: Metadata = {
   generator: 'Next.js',
 };
 
+/**
+ * Root layout component that wraps page content with global HTML, theming, navigation, footer, and toast UI.
+ *
+ * Renders the top-level <html> and <body> structure, applies the Inter font class, provides a ThemeProvider
+ * (system-default theme, with transitions disabled on change), and composes the page with TopNavigation,
+ * a main content container for `children`, Footer, and a global Toaster.
+ *
+ * @param children - The page content to be rendered inside the main content container.
+ * @returns The top-level HTML structure for the application.
+ */
 export default function RootLayout({
   children,
 }: {

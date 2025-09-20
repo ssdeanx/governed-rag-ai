@@ -19,6 +19,17 @@ interface TopNavigationProps {
   onSignOut?: () => void;
 }
 
+/**
+ * Responsive top navigation header for the app with branding, status, and navigation controls.
+ *
+ * Renders a desktop-oriented header with logo, app title, an active-route alert, and a horizontal
+ * navigation bar with tooltips. On small screens it shows a compact branding block and a mobile
+ * menu button that opens a right-side sheet containing the same navigation items. Navigation items
+ * call `handleNavigation` which updates `window.location.href` and closes the mobile menu.
+ *
+ * @param children - Optional content rendered on the right side of the header (e.g., user menu or actions).
+ * @returns The top navigation JSX element.
+ */
 export function TopNavigation({ children }: TopNavigationProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 

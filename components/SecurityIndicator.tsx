@@ -14,6 +14,23 @@ interface SecurityIndicatorProps {
   role?: string;
 }
 
+/**
+ * Renders a visual security/access indicator for the current user role.
+ *
+ * Displays a "Not Authenticated" alert when `role` is strictly `null`. For any non-null `role`
+ * the component derives a coarse access level ("internal", "internal-plus", "confidential")
+ * from the role string and renders:
+ * - a compact Access Level indicator with tooltips for Public / Internal / Confidential, and
+ * - a styled Security Badge showing the level label, description, icon, and the provided role.
+ *
+ * The derived level rules:
+ * - role containing "HR Admin" → "confidential"
+ * - role containing "Admin" or "Executive" → "internal-plus"
+ * - otherwise → "internal"
+ *
+ * @param role - The user's role string; pass `null` to render the unauthenticated state.
+ * @returns A JSX element representing the security indicator UI.
+ */
 export default function SecurityIndicator({ role }: SecurityIndicatorProps) {
   if (role === null) {
     return (

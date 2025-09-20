@@ -34,6 +34,17 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
+/**
+ * Render the static documentation UI for the "Governed RAG" demo site.
+ *
+ * Renders a hero, system status alert, and a multi-tab documentation layout (Overview,
+ * Quick Start, Security, API, Architecture, Examples) composed of Card, Tabs and other
+ * UI primitives. All content is static JSX (no data fetching or props); the page
+ * demonstrates the product's features, architecture, APIs, security model and example
+ * scenarios.
+ *
+ * @returns The DocsPage React element.
+ */
 export default function DocsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">

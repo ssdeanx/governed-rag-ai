@@ -3,9 +3,14 @@ import type { StreamTextResult } from 'ai';
 // ------------------- Functions for Data-Only SSE Format -------------------
 
 /**
- * Uses SSE data-only format.
- * Only uses 'event: done' with empty data for completion.
- * All other content goes through 'data:' field only.
+ * Creates an HTTP Response that streams server-sent events (SSE) using a data-only format.
+ *
+ * The provided callback is given the stream controller to enqueue UTF-8 encoded SSE payloads.
+ * The stream signals normal completion by emitting an `event: done` line followed by an empty `data:` frame.
+ * If the callback throws, an error payload `{ type: "error", message }` is emitted in a `data:` frame before the stream closes.
+ *
+ * @param cb - Async callback that receives a ReadableStreamDefaultController<Uint8Array> to enqueue SSE frames (UTF-8 bytes). It should not close the controller; completion is handled by this function.
+ * @returns A Response whose body is the SSE ReadableStream and which includes headers: `Content-Type: text/event-stream`, `Cache-Control: no-cache`, and `Connection: keep-alive`.
  */
 
 export function createSSEStream(
@@ -56,8 +61,12 @@ export function streamProgressUpdate(
 }
 
 /**
- * Emit any JSON object as a data event.
- * Used for actions, tool responses, custom events, etc.
+ * Emits a JSON-serializable payload as an SSE `data:` event on the given stream controller.
+ *
+ * The payload is serialized with `JSON.stringify` and written as `data: <json>\n\n` (bytes) so it can be consumed by an SSE client.
+ *
+ * @param controller - Readable stream controller to enqueue the encoded SSE bytes into
+ * @param eventData - The value to serialize and send as the event payload
  */
 
 export function streamJSONEvent<T>(
@@ -70,8 +79,14 @@ export function streamJSONEvent<T>(
 }
 
 /**
- * Handles streaming of text chunks using data-only format.
- * Compatible with new frontend parser that expects plain text chunks.
+ * Stream text chunks from a StreamTextResult into an SSE-compatible data-only stream and return the full concatenated text.
+ *
+ * Iterates the async `textStream` from `streamResult`, escapes literal newline characters (`\n` → `\\n`) for SSE compliance,
+ * and enqueues each chunk as a `data: <chunk>\n\n` event on the provided `streamController`.
+ *
+ * @param streamResult - Source containing an async iterable `textStream` of string chunks.
+ * @param streamController - Readable stream controller on which SSE `data:` events are enqueued.
+ * @returns The concatenation of all streamed chunks as a single string.
  */
 
 export async function handleTextStream(

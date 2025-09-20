@@ -18,6 +18,21 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 
+/**
+ * Theme toggle UI component that displays the current theme and lets the user switch between
+ * system, light, and dark modes.
+ *
+ * Renders a status Alert showing an avatar and badge for the active theme, and a themed icon
+ * button that opens a dropdown with "System", "Light", and "Dark" options. Uses `useTheme()`
+ * to read and update the app theme and tracks a mounted flag to avoid hydration mismatches
+ * (renders a disabled placeholder before mount).
+ *
+ * Accessibility:
+ * - The toggle button has an `aria-label="Toggle theme"`.
+ *
+ * Side effects:
+ * - Calls `setTheme('system' | 'light' | 'dark')` when a menu item is selected.
+ */
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();

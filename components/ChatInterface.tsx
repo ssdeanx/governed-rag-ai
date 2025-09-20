@@ -34,6 +34,15 @@ interface ChatInterfaceProps {
   role: string;
 }
 
+/**
+ * Chat UI component that manages a conversation, sends user queries to the server, and streams assistant responses into the chat.
+ *
+ * Renders a full-featured chat interface (messages list, input, metadata badges, contexts and citations UI). On send, posts { message } to /api/chat with an `Authorization: Bearer ${jwt}` header and incrementally updates the assistant message as the response body is streamed (appending content, contexts, and citations). Initializes with a system welcome message that reflects the provided role and auto-scrolls as messages arrive.
+ *
+ * @param jwt - Bearer token used to authenticate requests to the chat API.
+ * @param role - Displayed user role used in the initial system message and UI badges.
+ * @returns A React element containing the governed chat interface.
+ */
 export default function ChatInterface({ jwt, role }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');

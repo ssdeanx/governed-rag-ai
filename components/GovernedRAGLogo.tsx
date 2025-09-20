@@ -7,6 +7,16 @@ interface GovernedRAGLogoProps {
   size?: 'sm' | 'md' | 'lg';
 }
 
+/**
+ * React component that renders the Governed RAG SVG logo with configurable size and additional CSS classes.
+ *
+ * Renders an accessible (<svg aria-label="Governed RAG Logo">) logo composed of a shield, circuit/AI motif,
+ * data-flow arrows, and a lock symbol. Color is driven by `currentColor` so the icon inherits text color.
+ *
+ * @param className - Optional additional CSS classes to append to the computed size classes.
+ * @param size - Visual size of the icon; one of `'sm' | 'md' | 'lg'`. Defaults to `'md'`.
+ * @returns A JSX element containing the SVG logo.
+ */
 export function GovernedRAGLogo({ className = '', size = 'md' }: GovernedRAGLogoProps) {
   const sizeClasses = {
     sm: 'h-5 w-5',
