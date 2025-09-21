@@ -11,6 +11,18 @@ export const experimental_ppr = true
 
 type ChatMode = 'floating' | 'sidepanel' | 'caption';
 
+/**
+ * Page-level React component that displays the Cedar chat UI with a mode selector.
+ *
+ * Renders a full-height container with a ChatModeSelector that toggles between three chat modes:
+ * - "caption": embeds CedarCaptionChat inline,
+ * - "floating": shows FloatingCedarChat on the right,
+ * - "sidepanel": wraps the content with SidePanelCedarChat on the right (includes a collapsed button).
+ *
+ * The component manages local state (`chatMode`) initialized to `"caption"`; the selector updates that state.
+ *
+ * @returns The React element for the Cedar chat page.
+ */
 export default function HomePage() {
   // Cedar-OS chat components with mode selector
   // Choose between caption, floating, or side panel chat modes

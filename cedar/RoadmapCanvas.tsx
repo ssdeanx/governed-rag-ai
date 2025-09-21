@@ -21,6 +21,17 @@ import { useRoadmapData } from './useRoadmapData';
 import { useCedarState } from 'cedar-os';
 import type { FeatureNodeData } from './FeatureNode';
 
+/**
+ * Interactive roadmap canvas rendered with React Flow.
+ *
+ * Renders nodes and edges from roadmap data, synchronizes changes with Cedar-backed state,
+ * and provides interactive behaviors: selection tracking, automatic edge cleanup when nodes
+ * are deleted, and creation of animated bezier edges with closed-arrow markers on connect.
+ *
+ * The component also displays a compact overlay listing currently selected features (title and status).
+ *
+ * @returns A React element containing the interactive roadmap flow and selection overlay.
+ */
 export function RoadmapCanvas() {
   const { nodes: initialNodes, edges: initialEdges } = useRoadmapData();
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);

@@ -10,6 +10,18 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { GovernedRAGLogo } from './GovernedRAGLogo';
 
+/**
+ * Site footer React component used across the app.
+ *
+ * Renders a styled, responsive footer containing the brand block (logo, title, description, badges),
+ * three configurable link sections (Documentation, Resources, Legal) with tooltip-enhanced link items,
+ * and a bottom action row with copyright and quick-action icon links (GitHub, Documentation).
+ *
+ * External links in the sections open in a new tab and display an "Opens in new tab" tooltip;
+ * internal/anchor links show "Navigate to section". The displayed year is derived from the system clock.
+ *
+ * @returns The footer as a JSX element.
+ */
 export function Footer() {
   const currentYear = new Date().getFullYear();
 

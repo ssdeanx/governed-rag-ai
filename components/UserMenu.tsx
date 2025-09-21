@@ -24,6 +24,17 @@ interface UserMenuProps {
   onSignOut?: () => void;
 }
 
+/**
+ * Render a role-aware user menu with an access-level alert and dropdown actions.
+ *
+ * The component returns null when `currentRole` is falsy. When provided, `currentRole`
+ * drives the displayed icon, label, color, progress bar, and access-status badge.
+ * The dropdown includes a settings entry and a Sign Out action that calls `onSignOut`.
+ *
+ * @param currentRole - Role identifier (e.g., "tenant.admin" or "project.viewer"). Used to derive visual state (icon, label text, color classes), the numeric access progress, and the access-status badge.
+ * @param onSignOut - Optional callback invoked when the user selects "Sign Out" from the menu.
+ * @returns A JSX element containing the user status alert and dropdown menu, or `null` if `currentRole` is not provided.
+ */
 export function UserMenu({ currentRole, onSignOut }: UserMenuProps) {
   if (!currentRole) {
     return null;

@@ -464,7 +464,15 @@ export interface ExtractParams {
 }
 
 /**
- * Upsert vectors to LibSQL vector store
+ * Upserts a batch of vectors into the specified LibSQL vector index.
+ *
+ * Each vector in `vectors` is paired positionally with `metadata` and `ids` (i.e., vectors[i] ↔ metadata[i] ↔ ids[i]).
+ *
+ * @param indexName - Target vector index name.
+ * @param vectors - Array of numeric vectors to insert.
+ * @param metadata - Array of metadata objects corresponding to each vector.
+ * @param ids - Array of unique IDs corresponding to each vector.
+ * @returns An object with `success: true` and `count` when the upsert completes; on failure the function throws a `VectorStoreError`.
  */
 
 export async function upsertVectors(
@@ -557,7 +565,17 @@ export async function upsertVectors(
   }
 }
 /**
- * Create vector index
+ * Create a vector index in the configured vector store.
+ *
+ * Attempts to create an index with the provided name, embedding dimension, and similarity metric.
+ * If a tracing context is provided, a child span for the index creation will be created and ended
+ * with success or error metadata.
+ *
+ * @param indexName - The name of the index to create.
+ * @param dimension - Embedding dimension for the index (defaults to STORAGE_CONFIG.DEFAULT_DIMENSION).
+ * @param metric - Similarity metric to use for the index: `'cosine'`, `'euclidean'`, or `'dotproduct'` (defaults to `'cosine'`).
+ * @returns A promise that resolves to an object with `success: true` when the index is created.
+ * @throws VectorStoreError when index creation fails.
  */
 
 export async function createVectorIndex(
@@ -638,7 +656,22 @@ const indexSpan = tracingContext?.currentSpan?.createChildSpan({
 }
 
 /**
- * Query vectors from LibSQL vector store
+ * Query a LibSQL vector index for nearest neighbors and return normalized results.
+ *
+ * Performs a vector similarity query against the specified index and returns an array of
+ * QueryResult objects normalized to { id, score, metadata }. The function creates a tracing
+ * child span (when a tracing context is provided), records processing time, and throws a
+ * VectorStoreError on failure.
+ *
+ * @param indexName - Name of the vector index to query.
+ * @param queryVector - The query embedding vector.
+ * @param topK - Maximum number of nearest neighbors to return (default: 5).
+ * @param filter - Optional filter expression passed through to the underlying vector store.
+ * @param includeVector - If true, requests raw vectors from the store (the returned results are still normalized and do not include the vector payload).
+ *
+ * @returns A promise that resolves to an array of QueryResult objects with `id`, `score`, and `metadata`.
+ *
+ * @throws VectorStoreError - Thrown when the vector store query fails; the error contains operation and context details.
  */
 
 export async function queryVectors(
@@ -736,7 +769,19 @@ export async function queryVectors(
 }
 
 /**
- * Search memory messages
+ * Search a Memory store for messages semantically similar to a query and normalize results.
+ *
+ * Performs an embedding for the query, runs a semantic recall against the provided Memory (scoped to the thread),
+ * and converts varied memory response shapes into a consistent array of Message and UIMessage objects.
+ *
+ * The function tolerates multiple memory result shapes (e.g., `messages`, `messagesV2`, or a raw array),
+ * normalizes roles into the Message.role union, extracts text from `content` or `parts`, and preserves `createdAt`
+ * and thread identifiers when available. On error the function logs the failure and returns empty arrays.
+ *
+ * @param threadId - Identifier of the thread to constrain the recall to.
+ * @param query - Free-text query used for semantic search.
+ * @param topK - Maximum number of messages to return (default: 5).
+ * @returns An object with `messages` (normalized Message[]) and `uiMessages` (UI-friendly message view).
  */
 
 export async function searchMemoryMessages(
@@ -973,7 +1018,19 @@ export interface ChunkWithMetadata {
 }
 
 /**
- * Extract metadata from chunks
+ * Augment each chunk's metadata by extracting optional fields (title, summary, keywords, questions).
+ *
+ * The `extractParams` flags control which fields are added:
+ * - title: adds `extractedTitle` (boolean uses simple heuristics; object form yields an advanced placeholder).
+ * - summary: adds `extractedSummary` (boolean uses a short prefix; object form adds `extractedSummaries` keyed by requested types).
+ * - keywords: adds `extractedKeywords` (boolean uses simple frequency-based extraction; object form returns placeholder keywords).
+ * - questions: adds `extractedQuestions` (boolean extracts sentences ending with `?`; object form returns placeholder questions).
+ *
+ * The function returns a new array of chunks where each chunk is a shallow copy with its `metadata` replaced by an augmented metadata object; the original input array and its objects are not mutated.
+ *
+ * @param chunks - Array of chunks with `content` and `metadata` to enhance.
+ * @param extractParams - Controls which metadata fields to extract and whether to use simple or advanced extraction.
+ * @returns A new array of chunks with augmented metadata containing any of: `extractedTitle`, `extractedSummary`, `extractedSummaries`, `extractedKeywords`, `extractedQuestions`.
  */
 
 export function extractChunkMetadata(

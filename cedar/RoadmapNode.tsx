@@ -5,6 +5,16 @@ import { Badge } from './badge';
 import { Heart, MessageCircle, Bug, Lightbulb } from 'lucide-react';
 import type { FeatureNodeData } from './FeatureNode';
 
+/**
+ * React Flow node component that renders a roadmap item (feature or bug) with editable title/description.
+ *
+ * Renders a compact card showing node type, status, title, description, upvotes and comment count.
+ * Double-clicking the title or description enables inline edit mode; edits are saved on blur or on Enter.
+ *
+ * @param data - FeatureNodeData backing this node. Expected fields used: `title`, `description`, `status` (one of "done" | "in progress" | "planned" | "backlog"), `nodeType` (e.g. "feature" | "bug"), `upvotes`, and optional `comments` array.
+ * @param selected - Whether the node is selected in the React Flow canvas; when true a focus ring is shown.
+ * @returns A JSX element representing the roadmap node suitable for use as a React Flow node component.
+ */
 export function RoadmapNode({ data, selected }: NodeProps<FeatureNodeData>) {
   const [isEditing, setIsEditing] = React.useState(false);
   const [title, setTitle] = React.useState(data.title);

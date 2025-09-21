@@ -10,6 +10,16 @@ import { GovernedRAGLogo } from '@/components/GovernedRAGLogo';
 import { Lock } from 'lucide-react';
 import { useState } from 'react';
 
+/**
+ * Root client component for the app's home flow: handles authentication state and view routing.
+ *
+ * Renders three high-level modes based on internal state:
+ * - Indexing view when `currentView === 'indexing'` (passes `jwt || 'anonymous'` to IndexingPanel).
+ * - Public home view when `currentView === 'home'` and not authenticated (shows intro, AuthPanel, and FeatureCard grid).
+ * - Authenticated view when `jwt` is present and `currentView` is `home` or `chat` (shows LoggedInAlert and ChatInterface).
+ *
+ * Maintains local state for `jwt`, `currentRole`, and `currentView`. `handleSignOut` clears authentication state (removes `jwt` and `currentRole`). `handleNavigation` updates the active view.
+ */
 export default function Home() {
   const [jwt, setJwt] = useState<string>('');
   const [currentRole, setCurrentRole] = useState<string>('');

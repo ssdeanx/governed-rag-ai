@@ -59,6 +59,17 @@ const DEMO_ROLES = [
   }
 ];
 
+/**
+ * Role-based authentication UI component that lets a user pick a demo role, simulates an authentication progress,
+ * generates a signed JWT for that role, and invokes `onAuth` with the resulting token and role name.
+ *
+ * The component displays a card-based selection UI with role metadata, shows a progress bar while "authenticating",
+ * and creates a JWT (HS256) with a 2-hour expiration using `NEXT_PUBLIC_JWT_SECRET` (falls back to `"dev-secret"`).
+ * Errors during token generation are swallowed and do not surface in the UI.
+ *
+ * @param onAuth - Callback invoked after successful JWT generation with signature `(jwt: string, roleName: string)`.
+ * @returns A React element rendering the authentication panel.
+ */
 export default function AuthPanel({ onAuth }: AuthPanelProps) {
   const [selectedRole, setSelectedRole] = useState<typeof DEMO_ROLES[0] | null>(null);
   const [loading, setLoading] = useState(false);

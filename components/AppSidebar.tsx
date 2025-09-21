@@ -44,6 +44,24 @@ interface AppSidebarProps {
   onNavigate?: (itemId: string) => void;
 }
 
+/**
+ * Sidebar component that renders application navigation, progress indicators, and role info.
+ *
+ * Renders a collapsible sidebar with navigation items (Home, Chat Interface, Document Indexing, Documentation),
+ * a navigation progress alert (percentage of items marked active), a footer showing the current role with an
+ * access progress bar, and a Settings entry. Clicking a navigation item calls `onNavigate` with that item's `id`
+ * if the callback is provided.
+ *
+ * currentRole is used to display an avatar initial and compute a role-based access percentage:
+ * - empty/undefined -> 0%
+ * - contains "admin" -> 100%
+ * - contains "viewer" -> 25%
+ * - any other non-empty role -> 75%
+ *
+ * @param currentRole - Optional role string displayed in the footer (dots replaced with spaces when shown).
+ * @param onNavigate - Optional callback invoked with the selected navigation item's `id` when an item is clicked.
+ * @returns The sidebar JSX element.
+ */
 export function AppSidebar({
   currentRole,
   onNavigate

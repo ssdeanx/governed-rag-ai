@@ -5,7 +5,15 @@ import { zodToJsonSchema } from 'zod-to-json-schema';
 import { createSSEStream } from '../utils/streamUtils';
 import { log } from "./config/logger";
 
-// Helper function to convert Zod schema to OpenAPI schema
+/**
+ * Convert a Zod schema to an OpenAPI-compatible JSON schema object.
+ *
+ * Accepts a Zod schema (input type inferred from `zodToJsonSchema`) and returns
+ * the result cast to a plain object suitable for embedding in OpenAPI request/response schemas.
+ *
+ * @param schema - The Zod schema to convert.
+ * @returns An OpenAPI-compatible JSON schema as a plain object.
+ */
 function toOpenApiSchema(schema: Parameters<typeof zodToJsonSchema>[0]) {
   return zodToJsonSchema(schema) as Record<string, unknown>;
 }

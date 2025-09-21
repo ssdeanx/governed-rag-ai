@@ -35,6 +35,18 @@ interface IndexingResult {
   }>;
 }
 
+/**
+ * Panel UI for triggering and displaying the progress/results of indexing corpus documents.
+ *
+ * Renders a card with a control to start indexing, a progress indicator, summary alerts for success or error,
+ * and collapsible sections showing per-document results and security information.
+ *
+ * The Start Indexing button issues a POST to `/api/index` with the provided JWT and visualizes progress
+ * (including a simulated progress animation) while the request completes.
+ *
+ * @param jwt - JSON Web Token used to authenticate the indexing request sent to `/api/index`.
+ * @returns A React element containing the indexing control and result UI.
+ */
 export default function IndexingPanel({ jwt }: IndexingPanelProps) {
   const [isIndexing, setIsIndexing] = useState(false);
   const [result, setResult] = useState<IndexingResult | null>(null);

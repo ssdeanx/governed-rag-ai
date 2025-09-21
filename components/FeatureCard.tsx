@@ -27,6 +27,26 @@ interface FeatureCardProps {
   hoverContent?: React.ReactNode;
 }
 
+/**
+ * A richly styled, interactive card for presenting a feature with optional badge, status, progress, avatar, tooltip, and hover-preview content.
+ *
+ * Renders a clickable card with decorative backgrounds, a title, optional icon/avatar, an optional badge, an optional status alert, an optional progress bar (with percentage), and body content. If `hoverContent` is provided a compact preview panel is shown on hover.
+ *
+ * @param title - The card title (displayed prominently).
+ * @param badgeVariant - Visual variant for the badge; 'secondary' | 'destructive' | 'default'. When 'default' the Badge receives no explicit variant prop.
+ * @param badgeText - Optional badge label displayed under the title.
+ * @param icon - Optional leading icon node rendered beside the title.
+ * @param className - Additional CSS class names applied to the card container.
+ * @param children - Card body content rendered below the separator.
+ * @param status - Optional status type; one of 'success' | 'warning' | 'error' | 'info'. Requires `statusMessage` to render.
+ * @param statusMessage - Message shown inside the status Alert when `status` is provided.
+ * @param progress - Optional progress value (number). Treated as a percentage (e.g., 0–100); renders a progress bar and a textual "N% complete".
+ * @param showAvatar - When true, renders an Avatar to the left of the title.
+ * @param avatarFallback - Fallback text shown inside the Avatar (defaults to the first character of `title` when omitted).
+ * @param tooltip - (Present but not used) Intended tooltip text for the card.
+ * @param hoverContent - Optional React node displayed inside a HoverCardContent panel on hover.
+ * @returns The rendered FeatureCard JSX element.
+ */
 export function FeatureCard({
   title,
   badgeVariant = 'secondary',
