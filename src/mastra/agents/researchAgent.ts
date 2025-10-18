@@ -20,6 +20,14 @@ import {
 import { graphRagQueryTool } from '../tools/graph-rag-query.tool'
 import { mdocumentChunker } from '../tools/document-chunking.tool'
 import { sourceDiversityScorer, researchCompletenessScorer, summaryQualityScorer } from './custom-scorers'
+import { googleFinanceTool, googleScholarTool } from '../tools/serpapi-academic-local.tool'
+import { googleNewsLiteTool, googleNewsTool, googleTrendsTool } from '../tools/serpapi-news-trends.tool'
+import { alphaVantageCryptoTool, alphaVantageStockTool } from '../tools/alpha-vantage.tool'
+import { polygonCryptoSnapshotsTool } from '../tools/polygon-tools'
+import { arxivTool } from '../tools/arxiv.tool'
+import { pdfToMarkdownTool } from '../tools/pdf-data-conversion.tool'
+import { finnhubAnalysisTool } from '../tools/finnhub-tools'
+
 
 export interface ResearchAgentContext {
     userId?: string
@@ -99,6 +107,17 @@ export const researchAgent = new Agent({
         mdocumentChunker,
         evaluateResultTool,
         extractLearningsTool,
+        googleScholarTool,
+        googleTrendsTool,
+        googleFinanceTool,
+        googleNewsLiteTool,
+        googleNewsTool,
+        alphaVantageCryptoTool,
+        alphaVantageStockTool,
+        polygonCryptoSnapshotsTool,
+        arxivTool,
+        pdfToMarkdownTool,
+        finnhubAnalysisTool
     },
     memory: pgMemory,
     scorers: {
@@ -108,15 +127,15 @@ export const researchAgent = new Agent({
     },
     safety: {
       scorer: createToxicityScorer({ model: googleAIFlashLite }),
-      sampling: { type: "ratio", rate: 1 }
+      sampling: { type: "ratio", rate: 0.3 }
     },
     sourceDiversity: {
       scorer: sourceDiversityScorer,
-      sampling: { type: "ratio", rate: 0.7 }
+      sampling: { type: "ratio", rate: 0.5 }
     },
     researchCompleteness: {
       scorer: researchCompletenessScorer,
-      sampling: { type: "ratio", rate: 0.8 }
+      sampling: { type: "ratio", rate: 0.7 }
     },
     summaryQuality: {
       scorer: summaryQualityScorer,

@@ -156,6 +156,83 @@ export const assistantOutputSchema = z.object({
     ),
 })
 
+export const stockAnalysisOutputSchema = z.object({
+    symbol: z.string(),
+    currentPrice: z.number(),
+    analysis: z.object({
+        technical: z.object({
+            trend: z.string(),
+            indicators: z.record(z.string(), z.any()),
+            signals: z.array(z.string()),
+        }),
+        fundamental: z.object({
+            peRatio: z.number().optional(),
+            eps: z.number().optional(),
+            marketCap: z.number().optional(),
+            revenue: z.number().optional(),
+        }).optional(),
+        sentiment: z.object({
+            analystRating: z.string().optional(),
+            newssentiment: z.string().optional(),
+        }).optional(),
+    }),
+    recommendation: z.enum(['strong_buy', 'buy', 'hold', 'sell', 'strong_sell']),
+    priceTarget: z.number().optional(),
+    risks: z.array(z.string()),
+    sources: z.array(z.object({
+        provider: z.string(),
+        timestamp: z.string(),
+    })),
+})
+
+export const cryptoAnalysisOutputSchema = z.object({
+    symbol: z.string(),
+    currentPrice: z.number(),
+    marketCap: z.number().optional(),
+    volume24h: z.number().optional(),
+    analysis: z.object({
+        technical: z.object({
+            trend: z.string(),
+            indicators: z.record(z.string(), z.any()),
+            signals: z.array(z.string()),
+        }),
+        sentiment: z.object({
+            newsScore: z.number().optional(),
+            socialScore: z.number().optional(),
+            trendScore: z.number().optional(),
+        }),
+        onChain: z.object({
+            activeAddresses: z.number().optional(),
+            transactionVolume: z.number().optional(),
+        }).optional(),
+    }),
+    recommendation: z.enum(['strong_buy', 'buy', 'hold', 'sell', 'strong_sell']),
+    priceTarget: z.number().optional(),
+    risks: z.array(z.string()),
+    sources: z.array(z.object({
+        provider: z.string(),
+        timestamp: z.string(),
+    })),
+})
+
+export const marketEducationOutputSchema = z.object({
+    topic: z.string(),
+    explanation: z.string(),
+    keyPoints: z.array(z.string()),
+    examples: z.array(z.object({
+        scenario: z.string(),
+        outcome: z.string(),
+    })),
+    practicalTips: z.array(z.string()),
+    commonMistakes: z.array(z.string()),
+    nextSteps: z.array(z.string()),
+    resources: z.array(z.object({
+        title: z.string(),
+        url: z.string(),
+        type: z.enum(['article', 'video', 'course', 'book']),
+    })),
+})
+
 // Tier Configuration Schemas
 export const tierQuotaSchema = z.object({
     maxDocuments: z.number().int().positive().or(z.literal(-1)), // -1 = unlimited
@@ -298,6 +375,10 @@ export const agentOutputSchemas = {
     report: reportOutputSchema,
     starter: starterOutputSchema,
     selfReferencing: selfReferencingOutputSchema,
+    assistant: assistantOutputSchema,
+    stockAnalysis: stockAnalysisOutputSchema,
+    cryptoAnalysis: cryptoAnalysisOutputSchema,
+    marketEducation: marketEducationOutputSchema,
     // Content generation workflow schemas
     contentGenerationInput: contentGenerationInputSchema,
     validatedRequest: validatedRequestSchema,

@@ -41,7 +41,7 @@ const googleScholarOutputSchema = z.object({
 })
 
 export const googleScholarTool = createTool({
-    id: 'google-scholar',
+    id: 'googlescholar',
     description:
         'Search Google Scholar for academic papers and citations. Filter by year range, include/exclude patents, and sort by relevance or date. Returns paper title, authors, publication, year, citation count, and PDF links when available. Useful for research and finding academic sources.',
     inputSchema: googleScholarInputSchema,

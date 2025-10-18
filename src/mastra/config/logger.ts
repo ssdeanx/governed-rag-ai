@@ -1,7 +1,8 @@
 import { PinoLogger } from '@mastra/loggers'
+import { FileTransport } from '@mastra/loggers/file'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
-//import { FileTransport } from '@mastra/loggers/file'
+import pino from 'pino'
 // Use __dirname directly for CommonJS
 //const __dirname: string = path.resolve(path.dirname(''));
 
@@ -12,13 +13,32 @@ if (!fs.existsSync(logsDir)) {
 }
 
 export const log = new PinoLogger({
-    name: 'logger',
-    level: 'warn',
-    //  transports: {
-    //      file: new FileTransport({ path: path.join(logsDir, 'logs/mastra.log') })
-    //    }
+    name: 'MastraLogger',
+
+    level: 'debug',
+
+    formatters: {level: (label: string) => ({ level: label.toUpperCase() }), bindings: (bindings: object) => bindings as Record<string, unknown>,  log: (logObj: object) => logObj as Record<string, unknown>},
 })
 
+const transport = pino.transport({
+  targets: [
+    {
+      target: "pino/file",
+      options: { destination: 1 }, // stdout
+      level: "trace",
+    },
+    {
+      target: "pino-opentelemetry-transport",
+      options: {},
+      level: "trace",
+    },
+  ],
+});
+
+// Wait for the Pino worker threads to be set up
+await new Promise((resolve) => setTimeout(resolve, 1000));
+
+export const logger = pino(transport);
 // Create a simple file logger wrapper
 //
 const logFilePath: string = path.join(logsDir, 'workflow.log')

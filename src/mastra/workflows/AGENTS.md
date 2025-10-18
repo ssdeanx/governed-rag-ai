@@ -1,4 +1,4 @@
-<!-- AGENTS-META {"title":"Mastra Workflows","version":"1.1.0","last_updated":"2025-10-08T08:00:26Z","applies_to":"/src/mastra/workflows","tags":["layer:backend","domain:rag","type:workflows","status":"stable"],"status":"stable"} -->
+<!-- AGENTS-META {"title":"Mastra Workflows","version":"1.2.0","last_updated":"2025-10-18T00:00:00Z","applies_to":"/src/mastra/workflows","tags":["layer:backend","domain:rag","type:workflows","status":"stable"],"status":"stable"} -->
 
 # Workflows Directory (`/src/mastra/workflows`)
 
@@ -19,7 +19,9 @@ Model end-to-end guarded processes: answering governed questions, indexing corpu
 | `governed-rag-index.workflow.ts`                                                | Corpus ingestion             | Single-step batching & storage                          |
 | `researchWorkflow.ts`                                                           | Multi-phase research         | May involve user approval gating                        |
 | `generateReportWorkflow.ts`                                                     | Reporting from research data | Consumes output of research workflow.                   |
-| `contentGenerationWorkflow.ts`                                                  | Multi-agent content creation | Draft -> Refine -> Evaluate pipeline.                   |
+| `financialAnalysisWorkflow.ts`                                                  | Sequential financial analysis | Real-time price data, agent integration, streaming events |
+| `financialAnalysisWorkflowV2.ts`                                                | Batch financial analysis      | Concurrent symbol processing with .foreach() pattern      |
+| `financialAnalysisWorkflowV3.ts`                                                | Parallel financial analysis   | Concurrent technical/fundamental analysis streams         |
 | `chatWorkflow.ts` / `chatWorkflow1.ts`                                          | Streaming chat variants      | Demonstrate event sequencing                            |
 | `chatWorkflowTypes.ts` / `chatWorkflowTypes1.ts` / `chatWorkflowSharedTypes.ts` | Shared chat schemas          | Type safety for chat steps                              |
 
@@ -38,5 +40,6 @@ export const sampleWorkflow = createWorkflow({ id: 'sample' })
 
 | Version | Date (UTC) | Change                                                  |
 | ------- | ---------- | ------------------------------------------------------- |
+| 1.2.0   | 2025-10-18 | Added financial analysis workflows documentation.       |
 | 1.1.0   | 2025-10-08 | Verified content accuracy and updated metadata.         |
 | 1.0.0   | 2025-09-24 | Standardized template applied; legacy content preserved |

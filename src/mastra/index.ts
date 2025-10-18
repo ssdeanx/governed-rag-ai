@@ -23,14 +23,23 @@ import { productRoadmapAgent } from './agents/productRoadmapAgent'
 import { editorAgent } from './agents/editorAgent'
 import { generateReportWorkflow } from './workflows/generateReportWorkflow'
 import { chatWorkflow } from './workflows/chatWorkflow1'
+import { financialAnalysisWorkflow } from './workflows/financialAnalysisWorkflow'
+import { financialAnalysisWorkflowV2 } from './workflows/financialAnalysisWorkflowV2'
+import { financialAnalysisWorkflowV3 } from './workflows/financialAnalysisWorkflowV3'
 import { contentGenerationWorkflow } from './workflows/contentGenerationWorkflow'
 import { randomUUID } from 'crypto'
 import { SensitiveDataFilter } from '@mastra/core/ai-tracing'
-import { researchContentNetwork, governedRagNetwork } from './agents/network'
+import { researchContentNetwork, governedRagNetwork, financialTeamNetwork } from './agents/network'
 import { apiRoutes } from './apiRegistry'
 import { mcpAgent } from './agents/mcpAgent'
 import { responseQualityScorer, taskCompletionScorer } from './agents/custom-scorers'
-//import { voiceAgent } from './agents/voiceAgent'
+import { identityAgent } from './agents/identity.agent'
+import { policyAgent } from './agents/policy.agent'
+import { cryptoAnalysisAgent } from './agents/cryptoAnalysisAgent'
+import { stockAnalysisAgent } from './agents/stockAnalysisAgent'
+import { marketEducationAgent } from './agents/marketEducationAgent'
+import { selfReferencingAgent } from './agents/selfReferencingAgent'
+import { ssAgent } from './agents/ss'
 
 export const mastra = new Mastra({
     storage: pgStore,
@@ -40,6 +49,8 @@ export const mastra = new Mastra({
         rerank: rerankAgent,
         answerer: answererAgent,
         verifier: verifierAgent,
+        identity: identityAgent,
+        policy: policyAgent,
         starter: starterAgent,
         research: researchAgent,
         researcher: researchAgent,
@@ -52,9 +63,15 @@ export const mastra = new Mastra({
         productRoadmap: productRoadmapAgent,
         editor: editorAgent,
         mcp: mcpAgent,
+        cryptoAnalysis: cryptoAnalysisAgent,
+        stockAnalysis: stockAnalysisAgent,
+        marketEducation: marketEducationAgent,
+        selfReferencing: selfReferencingAgent,
+        ssAgent,
         //voice: voiceAgent,
         'research-content-network': researchContentNetwork,
         'governed-rag-network': governedRagNetwork,
+        'financial-team-network': financialTeamNetwork,
         // Add more agents here
     },
     workflows: {
@@ -65,6 +82,9 @@ export const mastra = new Mastra({
         'chat-workflow': chatWorkflow,
         'chat-workflow-1': chatWorkflow, // backward-compatible alias
         'content-generation': contentGenerationWorkflow,
+        'financial-analysis-workflow': financialAnalysisWorkflow,
+        'financial-analysis-workflow-v2': financialAnalysisWorkflowV2,
+        'financial-analysis-workflow-v3': financialAnalysisWorkflowV3,
     },
     scorers: {
             // Mastra expects the scorer implementation directly at the top-level.
@@ -95,7 +115,7 @@ export const mastra = new Mastra({
                         secretKey: process.env.LANGFUSE_SECRET_KEY,
                         baseUrl: process.env.LANGFUSE_BASE_URL, // Optional
                         realtime: process.env.NODE_ENV === 'development',
-                        logLevel: 'warn',
+                        logLevel: 'debug',
                         options: {
                             batchSize: 200,
                             flushInterval: 5000,

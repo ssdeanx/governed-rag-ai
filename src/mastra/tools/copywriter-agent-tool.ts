@@ -90,7 +90,7 @@ export const copywriterTool = createTool({
                 targetAudience: targetAudience ?? 'general',
                 tone: tone ?? 'engaging',
                 length,
-                hasRequirements: !!specificRequirements,
+                hasRequirements: specificRequirements && specificRequirements.length > 0,
             },
         })
 
@@ -100,7 +100,7 @@ export const copywriterTool = createTool({
             // Build the prompt with context
             let prompt = `Create ${length} ${contentType} content about: ${topic}`
 
-            if (targetAudience) {
+            if (targetAudience && targetAudience.trim().length > 0) {
                 prompt += `\n\nTarget audience: ${targetAudience}`
             }
 
@@ -166,7 +166,7 @@ export const copywriterTool = createTool({
                     success: true,
                     contentType,
                     wordCount,
-                    hasTitle: !!title,
+                    hasTitle: !(!title),
                     contentLength: content.length,
                 },
             })

@@ -320,7 +320,7 @@ const RangeSliderSpell: React.FC<RangeSliderSpellProps> = ({
                                 <motion.div
                                     className="absolute"
                                     animate={{
-                                      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;  left: `${currentPercent}%`,
+                                        left: `${currentPercent}%`,
                                     }}
                                     transition={{
                                         type: 'spring',

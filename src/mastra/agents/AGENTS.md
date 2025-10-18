@@ -1,4 +1,4 @@
-<!-- AGENTS-META {"title":"Mastra Agents Directory","version":"2.1.1","last_updated":"2025-10-17T12:15:00Z","applies_to":"/src/mastra/agents","tags":["layer:backend","domain:rag","type:agents","status:stable"],"status":"stable"} -->
+<!-- AGENTS-META {"title":"Mastra Agents Directory","version":"2.2.0","last_updated":"2025-10-18T00:00:00Z","applies_to":"/src/mastra/agents","tags":["layer:backend","domain:rag","type:agents","status:stable"],"status":"stable"} -->
 
 # 🤖 Mastra Agents Directory (`/src/mastra/agents`)
 
@@ -66,7 +66,9 @@ graph TB
 | `voiceAgent.ts` | 4.3KB | Voice-enabled research and interaction | `voice-tools`, `web-scraper` | ✅ | Gemini Flash + Voice | UI / Application |
 | `starterAgent.ts` | 3.4KB | Minimal agent scaffold and reference implementation | `basic-tools` | ✅ | Gemini Flash | Templates & Advanced |
 | `selfReferencingAgent.ts` | 3.6KB | Advanced agent patterns and self-modification | `advanced-tools` | ✅ | Gemini Flash | Templates & Advanced |
-| `template-reviewer-agent.ts` | 3.7KB | Template review and rating for hackathons | `review-tools` | ✅ | Gemini Flash | Templates & Advanced |
+| `cryptoAnalysisAgent.ts` | 4.2KB | Cryptocurrency market analysis and trading strategies | `polygon-crypto`, `alpha-vantage`, `google-news` | ✅ | Gemini Flash | Research |
+| `marketEducationAgent.ts` | 4.8KB | Financial education and investment teaching | `web-scraper`, `google-scholar`, `extract-learns` | ✅ | Gemini Flash | Content Generation |
+| `stockAnalysisAgent.ts` | 4.9KB | Stock market technical and fundamental analysis | `polygon-stock`, `finnhub`, `alpha-vantage` | ✅ | Gemini Flash | Research |
 
 ## 🔧 Technical Architecture
 
@@ -188,6 +190,7 @@ agent.on('toolCall', (call) => {
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 2.2.0 | 2025-10-18 | Added cryptoAnalysisAgent.ts, stockAnalysisAgent.ts, and marketEducationAgent.ts |
 | 2.1.1 | 2025-10-17 | Updated memory dimensions from 1568 to 3072 for improved vector embeddings |
 | 2.1.0 | 2025-10-17 | Added voiceAgent.ts, updated file sizes after custom scorer integration, added scorer infrastructure to system overview |
 | 2.0.0 | 2025-10-15 | Complete rewrite with comprehensive AI-focused documentation, visual diagrams, and technical details |
@@ -195,4 +198,14 @@ agent.on('toolCall', (call) => {
 | 1.1.0 | 2025-10-08 | Content verification and accuracy updates |
 | 1.0.0 | 2025-09-24 | Initial standardized documentation |
 
-**Total Agents:** 19 | **Total Lines:** ~48K | **Memory Usage:** 3072-dim vectors | **Custom Scorers:** 6 per agent
+**Total Agents:** 22 | **Total Lines:** ~48K | **Memory Usage:** 3072-dim vectors | **Custom Scorers:** 6 per agent
+
+## 🔗 Agent Networks (`/network/`)
+
+The `network/` subdirectory contains Mastra vNext Agent Network implementations for dynamic, non-deterministic multi-agent orchestration:
+
+- **`financial-team-network.ts`** - Financial analysis network coordinating stock/crypto agents
+- **`governed-rag-network.ts`** - RAG pipeline network with identity/policy/retrieval agents  
+- **`research-content-network.ts`** - Research and content generation network
+
+Agent Networks provide LLM-based routing that automatically selects appropriate agents/workflows based on task requirements, enabling more flexible and adaptive multi-agent collaboration.

@@ -1,4 +1,4 @@
-<!-- AGENTS-META {"title":"Mastra Tools","version":"1.3.0","last_updated":"2025-10-18T00:00:00Z","applies_to":"/src/mastra/tools","tags":["layer:backend","domain:rag","type:tools","status":"stable"],"status":"stable"} -->
+<!-- AGENTS-META {"title":"Mastra Tools","version":"1.4.0","last_updated":"2025-10-18T00:00:00Z","applies_to":"/src/mastra/tools","tags":["layer:backend","domain:rag","type:tools","status":"stable"],"status":"stable"} -->
 
 # Tools Directory (`/src/mastra/tools`)
 
@@ -25,7 +25,38 @@ Encapsulate atomic operational capabilities (security checks, vector queries, co
 | `roadmapTool.ts`                                    | Cedar OS roadmap interactions     | UI state bridging                             |
 | `weather-tool.ts`                                   | Example external API call         | Demonstrative pattern                         |
 | `evaluateResultTool.ts` / `extractLearningsTool.ts` | Research support tools            | Evaluate search results and extract insights. |
-| `pdf-data-conversion.tool.ts`                      | PDF to Markdown conversion        | Sideloads pdf-parse for RAG indexing              |
+| `alpha-vantage.tool.ts`                           | Alpha Vantage financial data API | Crypto & stock market data, exchange rates, technical indicators |
+| `arxiv.tool.ts`                                   | ArXiv academic paper search       | Academic papers, PDF parsing, research content extraction |
+| `finnhub-tools.ts`                                | Finnhub financial data API       | Real-time stock quotes, company data, financials, analysis |
+| `polygon-tools.ts`                                | Polygon.io market data API       | Real-time quotes, aggregates, fundamentals, crypto data |
+
+## Financial Data API Tools
+
+**Overview:** Suite of financial market data tools providing comprehensive access to stocks, cryptocurrencies, and market analysis.
+
+**Configuration:** Requires respective API keys (ALPHA_VANTAGE_API_KEY, FINNHUB_API_KEY, POLYGON_API_KEY).
+
+| File | Tools | Responsibility |
+|------|-------|----------------|
+| `starter-agent-tool.ts`                           | Dynamic agent invocation          | Runtime agent selection and execution based on task requirements |
+
+## Financial Data API Tools
+
+**Overview:** Suite of financial market data tools providing comprehensive access to stocks, cryptocurrencies, and market analysis.
+
+**Configuration:** Requires respective API keys (ALPHA_VANTAGE_API_KEY, FINNHUB_API_KEY, POLYGON_API_KEY).
+
+| File | Tools | Responsibility |
+|------|-------|----------------|
+| `alpha-vantage.tool.ts` | `alphaVantageCryptoTool`, `alphaVantageStockTool`, `alphaVantageTool` | Crypto prices, stock data, exchange rates, technical indicators |
+| `finnhub-tools.ts` | `finnhubQuotesTool`, `finnhubCompanyTool`, `finnhubFinancialsTool`, `finnhubAnalysisTool`, `finnhubTechnicalTool`, `finnhubEconomicTool` | Real-time quotes, company data, financial statements, analysis, technical indicators, economic data |
+| `polygon-tools.ts` | `polygonStockQuotesTool`, `polygonStockAggregatesTool`, `polygonStockFundamentalsTool`, `polygonCryptoQuotesTool`, `polygonCryptoAggregatesTool`, `polygonCryptoSnapshotsTool` | Real-time stock/crypto quotes, historical aggregates, fundamentals, market snapshots |
+
+## Academic & Research API Tools
+
+| File | Tools | Responsibility |
+|------|-------|----------------|
+| `arxiv.tool.ts` | `arxivTool`, `arxivPdfParserTool`, `arxivPaperDownloaderTool` | Academic paper search, PDF parsing, paper downloads |
 
 ## SerpAPI Integration Tools
 
@@ -72,6 +103,7 @@ export const sampleTool = createTool({
 
 | Version | Date (UTC) | Change                                                  |
 | ------- | ---------- | ------------------------------------------------------- |
+| 1.4.0   | 2025-10-18 | Added alpha-vantage, arxiv, finnhub, polygon, and starter-agent tools |
 | 1.3.0   | 2025-10-18 | Added pdf-data-conversion.tool.ts for PDF processing |
 | 1.2.0   | 2025-10-17 | Added SerpAPI integration tools for web search, news, shopping, academic, and local business queries |
 | 1.0.0   | 2025-09-24 | Standardized template applied; legacy content preserved |

@@ -1,6 +1,6 @@
 {
   "name": "secure-rag-multi-agent",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Secure, governed RAG template with role-based access control using Mastra",
   "main": "dist/index.js",
   "type": "module",
@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@ai-sdk/google": "^2.0.23",
-    "@ai-sdk/google-vertex": "^3.0.48",
+    "@ai-sdk/google-vertex": "^3.0.49",
     "@ai-sdk/openai": "^2.0.52",
     "@dotenvx/dotenvx": "^1.51.0",
     "@emotion/react": "^11.14.0",
@@ -54,6 +54,7 @@
     "@mastra/cloud": "^0.1.19",
     "@mastra/composio": "^0.1.13",
     "@mastra/core": "^0.21.1",
+    "@mastra/deployer": "^0.21.1",
     "@mastra/evals": "^0.14.0",
     "@mastra/langfuse": "^0.1.0",
     "@mastra/loggers": "^0.10.16",
@@ -75,6 +76,7 @@
     "@next/mdx": "^15.5.6",
     "@next/react-refresh-utils": "^15.5.6",
     "@openrouter/ai-sdk-provider": "^1.2.0",
+    "@opeoginni/github-copilot-openai-compatible": "^0.1.19",
     "@radix-ui/react-alert-dialog": "^1.1.15",
     "@radix-ui/react-context-menu": "^2.2.16",
     "@radix-ui/react-dialog": "^1.1.15",
@@ -120,7 +122,7 @@
     "next-mdx-remote": "^5.0.0",
     "next-sitemap": "^4.2.3",
     "next-themes": "^0.4.6",
-    "pdf-parse": "^2.4.0",
+    "pdf-parse": "^2.4.3",
     "playwright": "^1.56.1",
     "postcss": "^8.5.6",
     "react": "^19.2.0",
@@ -179,7 +181,7 @@
     "@vitest/coverage-v8": "^3.2.4",
     "concurrently": "^9.2.1",
     "dotenv-cli": "^10.0.0",
-    "eslint": "^9.37.0",
+    "eslint": "^9.38.0",
     "eslint-config-next": "^15.5.6",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react": "^7.37.5",
@@ -194,6 +196,8 @@
     "zod": "^4.1.12",
     "axios": "^1.12.2",
     "lucide-react": "^0.546.0",
-    "pino": "^10.0.0"
+    "pino": "^10.1.0",
+    "nanoid": "^5.1.6",
+    "tmp": "^0.2.5"
   }
 }

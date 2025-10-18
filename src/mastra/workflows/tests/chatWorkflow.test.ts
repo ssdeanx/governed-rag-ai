@@ -34,6 +34,7 @@ describe('chatWorkflow', () => {
                 prompt: 'Hello, how are you?',
                 temperature: 0.7,
                 maxTokens: 150,
+                currentDate: ''
             },
         })
 
@@ -57,6 +58,7 @@ describe('chatWorkflow', () => {
             inputData: {
                 prompt: 'What is TypeScript?',
                 maxTokens: 200,
+                currentDate: ''
             },
         })
 
@@ -77,6 +79,7 @@ describe('chatWorkflow', () => {
             inputData: {
                 prompt: 'Explain React hooks',
                 temperature: 0.5,
+                currentDate: ''
             },
         })
 
@@ -98,6 +101,7 @@ describe('chatWorkflow', () => {
                 prompt: 'Write a poem about code',
                 temperature: 0.9,
                 maxTokens: 300,
+                currentDate: ''
             },
         })
 
@@ -130,6 +134,7 @@ describe('chatWorkflow', () => {
                 maxTokens: 200,
                 resourceId: 'user-123',
                 threadId: 'thread-456',
+                currentDate: ''
             },
         })
 
@@ -161,6 +166,7 @@ describe('chatWorkflow', () => {
                 systemPrompt: 'You are a technical expert',
                 temperature: 0.7,
                 maxTokens: 200,
+                currentDate: ''
             },
         })
 
@@ -188,6 +194,7 @@ describe('chatWorkflow', () => {
                 prompt: 'Follow up: Can you explain that in more detail?',
                 temperature: 0.7,
                 maxTokens: 150,
+                currentDate: ''
             },
         })
 
@@ -213,6 +220,7 @@ describe('chatWorkflow', () => {
                 prompt: 'This will fail',
                 temperature: 0.7,
                 maxTokens: 150,
+                currentDate: ''
             },
         })
 

@@ -39,6 +39,7 @@ export const starterAgent = new Agent({
 <role>
 User: ${userId ?? 'admin'}
 You are a helpful AI assistant. Your primary function is to assist users with their questions and tasks.
+Today's date is ${new Date().toISOString()}
 </role>
 
 <primary_function>
